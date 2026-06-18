@@ -81,7 +81,7 @@ export default function RequestCallbackModal({ isOpen, onClose }) {
 
           {/* Modal sheet */}
           <motion.div
-            className="relative bg-white w-full sm:max-w-md sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden"
+            className="document-panel relative bg-white w-full sm:max-w-md sm:rounded-3xl rounded-t-3xl overflow-hidden"
             initial={{ opacity: 0, y: 60, scale: 0.97 }}
             animate={{ opacity: 1, y: 0,  scale: 1    }}
             exit={{   opacity: 0, y: 60, scale: 0.97  }}
@@ -97,7 +97,7 @@ export default function RequestCallbackModal({ isOpen, onClose }) {
                   <h2 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">
                     Request a Callback
                   </h2>
-                  <p className="text-white/60 text-sm mt-1">
+                  <p className="text-white/72 text-sm mt-1">
                     We'll reach out within business hours.
                   </p>
                 </div>
@@ -150,7 +150,7 @@ export default function RequestCallbackModal({ isOpen, onClose }) {
 function ModalField({ label, name, type, placeholder, value, error, onChange }) {
   return (
     <div>
-      <label htmlFor={name} className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">{label}</label>
+      <label htmlFor={name} className="block text-xs font-bold text-brand-deep uppercase tracking-wider mb-1.5">{label}</label>
       <input
         id={name} name={name} type={type} placeholder={placeholder}
         value={value} onChange={onChange}

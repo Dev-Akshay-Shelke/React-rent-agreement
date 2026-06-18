@@ -1,12 +1,13 @@
-﻿import { motion } from 'framer-motion'
+﻿import { useEffect } from 'react'
+import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
 const values = [
-  { icon: '\uD83D\uDD12', title: 'Security First',    desc: '100% secure data encryption and strict access controls for all client documents.' },
-  { icon: '\u2705', title: 'Legal Accuracy',    desc: 'Every agreement draft is reviewed and verified against the latest Maharashtra regulations.' },
-  { icon: '\u23F1\uFE0F', title: 'Prompt Turnaround', desc: 'We commit to processing and delivering certified agreements within 24-48 hours.' },
-  { icon: '\uD83C\uDFE0', title: 'Doorstep Service',  desc: 'Biometric coordination managed by our trained agents at your preferred location.' },
+  { iconPath: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', iconBg: 'bg-blue-50', iconColor: '#2563EB', title: 'Security First',    desc: '100% secure data encryption and strict access controls for all client documents.' },
+  { iconPath: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', iconBg: 'bg-green-50', iconColor: '#16A34A', title: 'Legal Accuracy',    desc: 'Every agreement draft is reviewed and verified against the latest Maharashtra regulations.' },
+  { iconPath: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', iconBg: 'bg-amber-50', iconColor: '#D97706', title: 'Prompt Turnaround', desc: 'We commit to processing and delivering certified agreements within 24-48 hours.' },
+  { iconPath: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', iconBg: 'bg-rose-50', iconColor: '#E11D48', title: 'Doorstep Service',  desc: 'Biometric coordination managed by our trained agents at your preferred location.' },
 ]
 
 const metrics = [
@@ -24,6 +25,10 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function About() {
+  useEffect(() => {
+    document.title = 'About Us | Prime Document Solutions — Rent Agreement Experts Pune'
+    return () => { document.title = 'Rent Agreement Registration Pune | Prime Document Solutions' }
+  }, [])
   return (
     <>
       <Navbar />
@@ -39,7 +44,7 @@ export default function About() {
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black mb-5 leading-tight tracking-tight">
             Simplifying Property Documentation
           </h1>
-          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/75 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Your trusted partner for legal, secure, and hassle-free Leave &amp; License
             registration across Maharashtra since 2021.
           </p>
@@ -47,12 +52,13 @@ export default function About() {
       </section>
 
       {/* Metrics strip */}
-      <section className="bg-white py-10 sm:py-12 px-4 border-b border-gray-100">
+      <section className="bg-brand-light py-10 sm:py-12 px-4 border-b border-brand-border">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
           {metrics.map((t, i) => (
             <motion.div key={t.label} {...fadeUp(i * 0.1)} className="text-center">
-              <p className="text-2xl sm:text-3xl font-extrabold text-brand-deep">{t.count}</p>
-              <p className="text-xs text-brand-steel font-semibold mt-1 uppercase tracking-wide">{t.label}</p>
+              <p className="font-display text-2xl sm:text-3xl font-black text-brand-deep">{t.count}</p>
+              <span className="mt-1.5 block h-px w-6 bg-brand-teal/40 mx-auto" />
+              <p className="text-xs text-brand-muted font-semibold mt-1.5 uppercase tracking-wide">{t.label}</p>
             </motion.div>
           ))}
         </div>
@@ -66,13 +72,13 @@ export default function About() {
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-brand-deep mt-3 mb-6 leading-tight tracking-tight">
               Who We Are
             </h2>
-            <p className="text-gray-600 leading-relaxed mb-5 text-sm sm:text-[15px]">
+            <p className="text-brand-muted leading-relaxed mb-5 text-sm sm:text-[15px]">
               At <strong>Prime Document Solutions</strong>, we specialize in offering streamlined,
               transparent, and regulatory-compliant <strong>Leave and License Registration
               services</strong>. Operating from our central office in Pune, we have simplified
               the documentation workflows for thousands of landlords, tenants, and corporate entities.
             </p>
-            <p className="text-gray-600 leading-relaxed text-sm sm:text-[15px]">
+            <p className="text-brand-muted leading-relaxed text-sm sm:text-[15px]">
               We understand that navigating property agreements can be overwhelming. Our modern
               processing infrastructure eliminates complicated paperwork, ensuring your
               government-approved biometric verification, document submission, and draft generation
@@ -100,7 +106,7 @@ export default function About() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   </span>
-                  <span className="text-sm text-blue-100">{item}</span>
+                  <span className="text-sm text-white/80">{item}</span>
                 </li>
               ))}
             </ul>
@@ -109,7 +115,7 @@ export default function About() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 sm:py-20 px-4 bg-gray-50">
+      <section className="py-16 sm:py-20 px-4 bg-brand-light">
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp()} className="text-center mb-12">
             <span className="text-brand-cta text-xs font-bold uppercase tracking-widest">Purpose</span>
@@ -120,13 +126,13 @@ export default function About() {
           <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
             {[
               {
-                emoji: '\uD83C\uDFAF',
+                iconPath: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
                 title: 'Our Mission',
                 text: 'To digitize and ease the property document execution space by providing transparent, fast, and completely stress-free Leave and License management support across Maharashtra.',
                 gradient: 'from-brand-deep to-brand-steel',
               },
               {
-                emoji: '\uD83D\uDC41\uFE0F',
+                iconPath: 'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
                 title: 'Our Vision',
                 text: 'To establish Prime Document Solutions as the benchmark provider for administrative estate document management, recognized for legal processing compliance and client satisfaction.',
                 gradient: 'from-brand-cta to-brand-teal',
@@ -135,13 +141,15 @@ export default function About() {
               <motion.div
                 key={card.title}
                 {...fadeUp(i * 0.15)}
-                className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 sm:p-10 text-center hover:shadow-lg transition-shadow duration-300"
+                className="bg-white rounded-3xl shadow-card border border-brand-border p-8 sm:p-10 text-center hover:shadow-card-hover transition-shadow duration-300"
               >
-                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${card.gradient} flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-6 shadow-md`}>
-                  {card.emoji}
+                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mx-auto mb-6 shadow-md`}>
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={card.iconPath} />
+                  </svg>
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-brand-deep mb-4">{card.title}</h3>
-                <p className="text-gray-500 leading-relaxed text-sm">{card.text}</p>
+                <p className="text-brand-muted leading-relaxed text-sm">{card.text}</p>
               </motion.div>
             ))}
           </div>
@@ -153,7 +161,7 @@ export default function About() {
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeUp()} className="text-center mb-12">
             <span className="text-brand-cta text-xs font-bold uppercase tracking-widest">Core Values</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-brand-deep mt-3">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-brand-deep mt-3">
               What Drives Us
             </h2>
           </motion.div>
@@ -162,11 +170,15 @@ export default function About() {
               <motion.div
                 key={v.title}
                 {...fadeUp(i * 0.1)}
-                className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-brand-teal/40 hover:shadow-md transition-all duration-300"
+                className="bg-white rounded-2xl p-6 border border-brand-border hover:border-brand-teal/40 hover:shadow-card transition-all duration-300"
               >
-                <span className="text-2xl sm:text-3xl block mb-4">{v.icon}</span>
+              <div className={`w-11 h-11 rounded-xl ${v.iconBg} flex items-center justify-center mb-4`}>
+                <svg className="w-5 h-5" fill="none" stroke={v.iconColor} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={v.iconPath} />
+                </svg>
+              </div>
                 <h4 className="font-bold text-brand-deep mb-2 text-sm sm:text-base">{v.title}</h4>
-                <p className="text-sm text-gray-500 leading-relaxed">{v.desc}</p>
+                <p className="text-sm text-brand-muted leading-relaxed">{v.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -174,7 +186,7 @@ export default function About() {
       </section>
 
       {/* Office Location */}
-      <section className="py-16 sm:py-24 px-4 bg-gray-50">
+      <section className="py-16 sm:py-24 px-4 bg-brand-light">
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeUp()} className="text-center mb-10 sm:mb-12">
             <span className="text-brand-cta text-xs font-bold uppercase tracking-widest">Find Us</span>
@@ -184,7 +196,7 @@ export default function About() {
           </motion.div>
           <motion.div
             {...fadeUp(0.1)}
-            className="grid md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-gray-100"
+            className="grid md:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-brand-border"
           >
             {/* Map */}
             <div className="h-72 sm:h-80 md:h-auto md:min-h-[340px]">
@@ -203,8 +215,8 @@ export default function About() {
             {/* Info */}
             <div className="p-8 sm:p-10 bg-brand-deep text-white flex flex-col justify-center">
               <h3 className="text-xl sm:text-2xl font-bold text-brand-teal mb-2">Prime Document Solutions</h3>
-              <p className="text-sm text-blue-300 mb-6">Pune's Most Trusted Registration Partner</p>
-              <div className="space-y-3 sm:space-y-4 text-sm text-gray-300 mb-8">
+              <p className="text-sm text-brand-mint/70 mb-6">Pune's Most Trusted Registration Partner</p>
+              <div className="space-y-3 sm:space-y-4 text-sm text-white/70 mb-8">
                 <div className="flex items-start gap-3">
                   <svg className="w-4 h-4 text-brand-teal flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />

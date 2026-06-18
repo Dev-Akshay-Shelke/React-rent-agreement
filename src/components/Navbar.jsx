@@ -6,6 +6,7 @@ const navItems = [
   { to: '/',         label: 'Home'     },
   { to: '/about',    label: 'About Us' },
   { to: '/services', label: 'Services' },
+  { to: '/blog',     label: 'Blog'     },
   { to: '/contact',  label: 'Contact'  },
 ]
 
@@ -22,53 +23,38 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`sticky top-0 z-50 transition-all duration-500 ${
+      <nav className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/88 backdrop-blur-xl shadow-md border-b border-white/60'
+          ? 'bg-white shadow-[0_2px_12px_rgba(26,43,73,0.10)] border-b border-brand-border'
           : 'bg-white border-b border-brand-border'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-[68px]">
+          <div className="flex items-center justify-between h-24">
 
             {/* ── Brand ── */}
-            <Link to="/" className="flex items-center gap-3 group shrink-0">
+            <Link to="/" className="flex items-center group shrink-0">
               <img
-                src="/images/logo.jpeg"
+                src="/images/3Dlogo.png"
                 alt="Prime Document Solutions"
-                className="h-10 w-auto object-contain rounded-lg ring-1 ring-brand-border transition-transform duration-300 group-hover:scale-105"
+                className="h-[88px] w-auto object-contain transition-transform duration-300 group-hover:scale-105 [filter:drop-shadow(0_2px_10px_rgba(26,43,73,0.18))]"
               />
-              <div className="hidden sm:block leading-none">
-                <p className="font-display font-extrabold text-brand-deep text-[15px] tracking-tight">
-                  Prime Document
-                </p>
-                <p className="text-brand-teal text-[10px] font-bold tracking-[0.2em] uppercase mt-0.5">
-                  Solutions
-                </p>
-              </div>
             </Link>
 
             {/* ── Desktop nav links ── */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0.5">
               {navItems.map(({ to, label }) => (
                 <NavLink
                   key={to}
                   to={to}
                   end={to === '/'}
                   className={({ isActive }) =>
-                    'relative px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ' +
+                    'relative px-4 py-2 rounded-lg text-sm transition-all duration-200 ' +
                     (isActive
-                      ? 'text-brand-cta bg-brand-light font-bold'
-                      : 'text-brand-muted hover:text-brand-deep hover:bg-gray-100')
+                      ? 'text-white bg-brand-deep font-bold shadow-sm'
+                      : 'text-brand-muted font-medium hover:text-brand-deep hover:bg-brand-light')
                   }
                 >
-                  {({ isActive }) => (
-                    <>
-                      {label}
-                      {isActive && (
-                        <span className="absolute -bottom-px left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full bg-gradient-to-r from-brand-cta to-brand-teal" />
-                      )}
-                    </>
-                  )}
+                  {label}
                 </NavLink>
               ))}
             </div>
@@ -89,7 +75,7 @@ export default function Navbar() {
 
             {/* ── Mobile hamburger ── */}
             <button
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none"
+              className="md:hidden p-2 rounded-lg hover:bg-brand-light transition-colors focus:outline-none"
               aria-label="Toggle menu"
               onClick={() => setMenuOpen(!menuOpen)}
             >
@@ -104,7 +90,7 @@ export default function Navbar() {
 
         {/* ── Mobile drawer ── */}
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <div className="border-t border-brand-border bg-white/95 backdrop-blur-sm px-4 pt-2 pb-5 space-y-1">
+          <div className="border-t border-brand-border bg-white px-4 pt-2 pb-5 space-y-1">
             {navItems.map(({ to, label }) => (
               <NavLink
                 key={to}
@@ -114,8 +100,8 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ' +
                   (isActive
-                    ? 'bg-brand-light text-brand-cta border-l-[3px] border-brand-cta pl-[13px]'
-                    : 'text-brand-muted hover:bg-gray-100 hover:text-brand-deep')
+                    ? 'bg-brand-deep text-white shadow-sm'
+                    : 'text-brand-muted hover:bg-brand-light hover:text-brand-deep')
                 }
               >
                 {label}

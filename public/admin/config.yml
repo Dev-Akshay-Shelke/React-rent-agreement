@@ -1,0 +1,32 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where to store images uploaded in the editor
+media_folder: public/images/blog
+public_folder: /images/blog
+
+# The blog post collection
+collections:
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    editor:
+      preview: false
+    fields:
+      - { label: "Title", name: title, widget: string, hint: "Clear, keyword-rich title for Google" }
+      - { label: "Slug", name: slug, widget: string, hint: "URL path e.g. stamp-duty-pune-2025 (no spaces)" }
+      - { label: "Excerpt", name: excerpt, widget: text, hint: "Short summary shown in cards and Google search results (120-160 chars ideal)" }
+      - label: "Category"
+        name: category
+        widget: select
+        options: ["Legal Guide", "How-To Guide", "Legal Concepts", "News & Updates"]
+      - { label: "Read Time", name: readTime, widget: string, default: "5 min read" }
+      - { label: "Publish Date", name: date, widget: date, format: "YYYY-MM-DD" }
+      - { label: "SEO Keywords", name: keywords, widget: string, hint: "Comma-separated, e.g. stamp duty Pune 2025, rent agreement update Maharashtra" }
+      - { label: "Article Body", name: body, widget: markdown, hint: "Use ## for section headings. Write naturally — this is what Google and your readers see." }

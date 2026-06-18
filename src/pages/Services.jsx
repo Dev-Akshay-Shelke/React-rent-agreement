@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -48,7 +48,7 @@ const steps = [
 const faqs = [
   {
     q: 'Is rent agreement registration mandatory in Maharashtra?',
-    a: 'Yes. Under the Maharashtra Rent Control Act, registration of Leave & License agreements is legally mandatory for terms exceeding 11 months.',
+    a: 'Yes. Under the Maharashtra Rent Control Act, registration of Leave & License agreements is legally mandatory for terms exceeding 11 months. An unregistered agreement cannot be used as evidence in court.',
   },
   {
     q: 'How long does the entire process take?',
@@ -56,11 +56,27 @@ const faqs = [
   },
   {
     q: 'Do I need to visit any government office?',
-    a: 'No. The entire process is 100% online. Our agent visits your home for biometric verification.',
+    a: 'No. The entire process is 100% online. Our agent visits your home for Aadhaar biometric e-KYC verification — no office visit required.',
   },
   {
-    q: 'What documents are required?',
-    a: 'Aadhaar card, PAN card, recent passport photos, and property ownership documents (for landlord). Tenant needs Aadhaar and PAN.',
+    q: 'What documents are required for rent agreement registration?',
+    a: 'Landlord: Aadhaar card, PAN card, property ownership document, recent passport photo. Tenant: Aadhaar card, PAN card, recent passport photo.',
+  },
+  {
+    q: 'How much does rent agreement registration cost in Pune?',
+    a: 'The cost includes Maharashtra government stamp duty (calculated on monthly rent and tenure) plus our flat-rate service fee. We share a complete transparent breakdown before you proceed — no hidden charges.',
+  },
+  {
+    q: 'Do you provide rent agreement registration in Nanded City, Wakad, Hinjwadi, and Warje?',
+    a: 'Yes. We cover all Pune localities including Nanded City, Wakad, Hinjwadi, Warje, Kothrud, Bavdhan, Baner, Aundh, Pimple Saudagar, Hadapsar, Viman Nagar, Koregaon Park, and all Mumbai and Thane areas.',
+  },
+  {
+    q: 'What is the difference between a rent agreement and a Leave & License agreement?',
+    a: 'In Maharashtra, what is commonly called a "rent agreement" is legally a Leave & License agreement. It gives the tenant (Licensee) permission to occupy the property for a fixed period without transferring ownership rights. Registration is mandatory under the Maharashtra Rent Control Act.',
+  },
+  {
+    q: 'Can I get an 11-month rent agreement registered online?',
+    a: 'Yes. We specialize in 11-month Leave & License agreements registered online with doorstep biometric service anywhere in Pune and Mumbai.',
   },
 ]
 
@@ -75,6 +91,11 @@ export default function Services() {
   const [callbackOpen, setCallbackOpen] = useState(false)
   const [openFaq,      setOpenFaq]      = useState(null)
 
+  useEffect(() => {
+    document.title = 'Rent Agreement Registration Services Pune | Prime Document Solutions'
+    return () => { document.title = 'Rent Agreement Registration Pune | Prime Document Solutions' }
+  }, [])
+
   return (
     <>
       <Navbar />
@@ -88,7 +109,7 @@ export default function Services() {
         <motion.div {...fadeUp()} className="relative z-10">
           <span className="section-label text-brand-mint">What We Offer</span>
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black mb-4 tracking-tight">Our Professional Services</h1>
-          <p className="text-blue-100 text-base sm:text-lg max-w-xl mx-auto">
+          <p className="text-white/75 text-base sm:text-lg max-w-xl mx-auto">
             Fast, secure, and legally compliant Leave &amp; License registration — at your doorstep.
           </p>
         </motion.div>
@@ -106,13 +127,13 @@ export default function Services() {
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-brand-deep mb-5 leading-tight tracking-tight">
               Leave &amp; License<br />Rent Agreement
             </h2>
-            <p className="text-gray-600 leading-relaxed mb-4 text-[15px]">
+            <p className="text-brand-muted leading-relaxed mb-4 text-[15px]">
               A <strong>Rent Agreement</strong> (legally recognized as a Leave and License Agreement
               in Maharashtra) is a vital legal document binding a property owner (Licensor) and a
               tenant (Licensee). It defines the terms, monthly rent, security deposit, and duration
               for a specific property.
             </p>
-            <p className="text-gray-600 leading-relaxed mb-8 text-[15px]">
+            <p className="text-brand-muted leading-relaxed mb-8 text-[15px]">
               Under the <strong>Maharashtra Rent Control Act</strong>, registering these documents is
               strictly mandatory. Prime Document Solutions manages the entire lifecycle — legal
               drafting, government portal coordination, and biometric verification.
@@ -147,10 +168,14 @@ export default function Services() {
             className="grid grid-cols-1 sm:grid-cols-2 gap-4"
           >
             {perks.map(p => (
-              <div key={p.title} className="bg-gray-50 rounded-2xl p-5 border border-gray-100 hover:border-brand-teal/40 hover:bg-brand-teal/5 transition-all duration-200">
-                <span className="text-2xl mb-3 block">{p.icon}</span>
+              <div key={p.title} className="bg-white rounded-2xl p-5 border border-brand-border hover:border-brand-teal/30 hover:shadow-card transition-all duration-200">
+                <div className={`w-10 h-10 rounded-xl ${p.iconBg} flex items-center justify-center mb-3`}>
+                  <svg className="w-5 h-5" fill="none" stroke={p.iconColor} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={p.iconPath} />
+                  </svg>
+                </div>
                 <h4 className="font-bold text-brand-deep text-sm mb-1">{p.title}</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">{p.desc}</p>
+                <p className="text-xs text-brand-muted leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </motion.div>
@@ -158,14 +183,14 @@ export default function Services() {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="py-14 sm:py-24 px-4 bg-gray-50">
+      <section className="py-14 sm:py-24 px-4 bg-brand-light">
         <div className="max-w-6xl mx-auto">
           <motion.div {...fadeUp()} className="text-center mb-16">
             <span className="text-brand-cta text-xs font-bold uppercase tracking-widest">Step-by-Step</span>
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-brand-deep mt-3 mb-4 tracking-tight">
               Easy Online Registration Process
             </h2>
-            <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+            <p className="text-brand-muted text-lg max-w-2xl mx-auto">
               Get your rent agreement fully registered from the comfort of your home in 5 simple steps.
             </p>
           </motion.div>
@@ -175,14 +200,14 @@ export default function Services() {
               <motion.div
                 key={step.n}
                 {...fadeUp(i * 0.08)}
-                className="flex gap-5 items-start bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-brand-teal/30 transition-all duration-300"
+                className="flex gap-5 items-start bg-white rounded-2xl p-6 shadow-card border border-brand-border hover:shadow-card-hover hover:border-brand-teal/30 transition-all duration-300"
               >
                 <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-deep to-brand-steel text-white font-extrabold text-lg flex items-center justify-center shadow-md">
                   {step.n}
                 </div>
                 <div className="pt-1">
                   <h3 className="font-bold text-brand-deep text-base mb-1">{step.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{step.desc}</p>
+                  <p className="text-brand-muted text-sm leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -205,10 +230,10 @@ export default function Services() {
               <motion.div
                 key={i}
                 {...fadeUp(i * 0.08)}
-                className="border border-gray-200 rounded-2xl overflow-hidden"
+                className="border border-brand-border rounded-2xl overflow-hidden"
               >
                 <button
-                  className="w-full flex items-center justify-between px-6 py-4 text-left bg-white hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between px-6 py-4 text-left bg-white hover:bg-brand-light transition-colors"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <span className="font-semibold text-brand-deep text-sm pr-4">{faq.q}</span>
@@ -220,8 +245,8 @@ export default function Services() {
                   </svg>
                 </button>
                 {openFaq === i && (
-                  <div className="px-6 pb-5 bg-gray-50 border-t border-gray-100">
-                    <p className="text-gray-600 text-sm leading-relaxed pt-3">{faq.a}</p>
+                  <div className="px-6 pb-5 bg-brand-light border-t border-brand-border">
+                    <p className="text-brand-muted text-sm leading-relaxed pt-3">{faq.a}</p>
                   </div>
                 )}
               </motion.div>
@@ -234,7 +259,7 @@ export default function Services() {
       <section className="py-16 sm:py-20 bg-gradient-to-r from-brand-deep to-brand-steel text-center text-white px-4">
         <motion.div {...fadeUp()}>
           <h2 className="text-3xl font-extrabold mb-4">Ready to Get Started?</h2>
-          <p className="text-blue-200 text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-white/70 text-lg mb-10 max-w-xl mx-auto">
             Contact us today and our expert team will guide you through the entire process.
           </p>
           <button

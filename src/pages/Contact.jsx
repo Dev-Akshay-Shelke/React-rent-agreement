@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import Navbar from '../components/Navbar'
@@ -9,32 +9,32 @@ const PHONE_RE = /^(?:\+91[\-\s]?)?[6-9]\d{9}$/
 
 const infoCards = [
   {
-    icon: '📍',
+    iconPath: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z',
+    iconBg: 'bg-blue-50', iconColor: '#2563EB',
     title: 'Our Office',
     lines: ['Walhekar Properties, Flat No. 405, 4th Floor,', 'Nanded City, Pune — 411041'],
-    color: 'bg-blue-50 border-blue-100',
-    iconBg: 'bg-blue-100',
+    color: 'bg-white border-brand-border',
   },
   {
-    icon: '📞',
+    iconPath: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
+    iconBg: 'bg-green-50', iconColor: '#16A34A',
     title: 'Call Us',
     lines: ['+91 93564 80165'],
-    color: 'bg-green-50 border-green-100',
-    iconBg: 'bg-green-100',
+    color: 'bg-white border-brand-border',
   },
   {
-    icon: '✉️',
+    iconPath: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    iconBg: 'bg-sky-50', iconColor: '#0284C7',
     title: 'Email Us',
     lines: ['info@primedocs.com', 'sales@primedocs.com'],
-    color: 'bg-purple-50 border-purple-100',
-    iconBg: 'bg-purple-100',
+    color: 'bg-white border-brand-border',
   },
   {
-    icon: '⏰',
+    iconPath: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+    iconBg: 'bg-purple-50', iconColor: '#7C3AED',
     title: 'Business Hours',
     lines: ['Monday – Sunday', '10:00 AM – 7:00 PM'],
-    color: 'bg-orange-50 border-orange-100',
-    iconBg: 'bg-orange-100',
+    color: 'bg-white border-brand-border',
   },
 ]
 
@@ -51,6 +51,11 @@ export default function Contact() {
   const [form,    setForm]    = useState(initForm)
   const [errors,  setErrors]  = useState({})
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    document.title = 'Contact Us | Rent Agreement Pune | Prime Document Solutions'
+    return () => { document.title = 'Rent Agreement Registration Pune | Prime Document Solutions' }
+  }, [])
 
   function validate() {
     const e = {}
@@ -115,27 +120,29 @@ export default function Contact() {
         <motion.div {...fadeUp()} className="relative z-10">
           <span className="inline-block text-brand-mint text-xs font-bold uppercase tracking-widest mb-3">Reach Out</span>
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black mb-5 tracking-tight">Get In Touch</h1>
-          <p className="text-blue-200 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-white/78 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Have questions about your rent agreement? Our experts are here to help — every day of the week.
           </p>
         </motion.div>
       </section>
 
       {/* ── Info Cards ── */}
-      <section className="py-14 px-4 bg-white border-b border-gray-100">
+      <section className="py-14 px-4 bg-white border-b border-brand-border">
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {infoCards.map((card, i) => (
             <motion.div
               key={card.title}
               {...fadeUp(i * 0.08)}
-              className={`${card.color} border rounded-2xl p-6 flex gap-4 items-start hover:shadow-md transition-all duration-300`}
+              className={`${card.color} rounded-2xl p-6 flex gap-4 items-start hover:shadow-card-hover transition-all duration-300`}
             >
-              <div className={`${card.iconBg} w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0`}>
-                {card.icon}
+              <div className={`${card.iconBg} w-12 h-12 rounded-xl border border-brand-border flex items-center justify-center flex-shrink-0`}>
+                <svg className="w-5 h-5" fill="none" stroke={card.iconColor} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={card.iconPath} />
+                </svg>
               </div>
               <div>
                 <h3 className="font-bold text-brand-deep text-sm mb-1.5">{card.title}</h3>
-                {card.lines.map(l => <p key={l} className="text-xs text-gray-500 leading-relaxed">{l}</p>)}
+                {card.lines.map(l => <p key={l} className="text-xs text-brand-muted leading-relaxed">{l}</p>)}
               </div>
             </motion.div>
           ))}
@@ -143,16 +150,16 @@ export default function Contact() {
       </section>
 
       {/* ── Form + Map ── */}
-      <section className="py-14 sm:py-20 px-4 bg-gray-50">
+      <section className="py-14 sm:py-20 px-4 bg-brand-light">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
 
           {/* Contact form */}
           <motion.div
             {...fadeUp(0.1)}
-            className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sm:p-8 lg:p-10"
+            className="document-panel rounded-3xl p-6 sm:p-8 lg:p-10"
           >
             <h2 className="text-2xl font-extrabold text-brand-deep mb-2">Send Us a Message</h2>
-            <p className="text-gray-500 text-sm mb-8">We'll respond within a few hours during business days.</p>
+            <p className="text-brand-muted text-sm mb-8">We'll respond within a few hours during business days.</p>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
               <ContactField
@@ -193,7 +200,7 @@ export default function Contact() {
               />
 
               <div>
-                <label htmlFor="message" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
+                <label htmlFor="message" className="block text-xs font-bold text-brand-muted uppercase tracking-wider mb-1.5">
                   Your Message *
                 </label>
                 <textarea
@@ -219,7 +226,7 @@ export default function Contact() {
           </motion.div>
 
           {/* Map */}
-          <motion.div {...fadeUp(0.2)} className="rounded-3xl overflow-hidden shadow-sm border border-gray-100 min-h-[420px]">
+          <motion.div {...fadeUp(0.2)} className="document-panel rounded-3xl overflow-hidden min-h-[420px]">
             <iframe
               title="Prime Document Solutions Office"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.4447478051783!2d73.7844000!3d18.4635000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc29560f8555555%3A0x0!2sDestination%20Centre%2C%20Nanded%20City%2C%20Pune%2C%20Maharashtra%20411068!5e0!3m2!1sen!2sin!4v1718361600000!5m2!1sen!2sin"

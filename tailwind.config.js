@@ -8,14 +8,16 @@ export default {
     extend: {
       colors: {
         brand: {
-          deep:    '#0C1F3F',   // deep navy
-          steel:   '#1A5276',   // mid navy
-          teal:    '#0891B2',   // saturated teal
-          mint:    '#34D399',   // emerald
-          cta:     '#0EA5E9',   // sky blue — primary action
-          light:   '#F0F9FF',   // light surface
-          muted:   '#64748B',   // secondary text
-          border:  '#E2E8F0',   // borders
+          deep:    '#1A2B49',   // primary navy for text and structure
+          steel:   '#243A63',   // secondary navy surfaces
+          teal:    '#28A745',   // success / primary action
+          mint:    '#DFF3E3',   // soft success tint
+          cta:     '#0055DA',   // secondary action / links
+          light:   '#F7F6F0',   // off-white section surface
+          muted:   '#55657E',   // body text
+          border:  '#D8E0EA',   // subtle utility lines
+          success: '#28A745',
+          link:    '#0055DA',
         },
       },
       fontFamily: {
@@ -23,12 +25,12 @@ export default {
         display: ['Poppins', 'Inter',     'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        glass:        '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.10)',
-        'glow-sm':    '0 0 16px rgba(14,165,233,0.30)',
-        glow:         '0 0 32px rgba(14,165,233,0.40)',
-        'glow-teal':  '0 0 24px rgba(8,145,178,0.35)',
-        card:         '0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)',
-        'card-hover': '0 8px 16px rgba(0,0,0,0.06), 0 24px 48px rgba(12,31,63,0.14)',
+        glass:        '0 12px 34px rgba(26,43,73,0.10), inset 0 1px 0 rgba(255,255,255,0.70)',
+        'glow-sm':    '0 0 16px rgba(40,167,69,0.18)',
+        glow:         '0 0 32px rgba(0,85,218,0.22)',
+        'glow-teal':  '0 0 24px rgba(40,167,69,0.18)',
+        card:         '0 1px 3px rgba(26,43,73,0.05), 0 8px 24px rgba(26,43,73,0.06)',
+        'card-hover': '0 8px 18px rgba(26,43,73,0.06), 0 20px 36px rgba(26,43,73,0.10)',
       },
       borderRadius: {
         '3xl': '1.5rem',
