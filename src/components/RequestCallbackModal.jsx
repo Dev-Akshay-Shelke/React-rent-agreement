@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { sendContactEmail, sendWhatsAppNotification } from '../services/notificationService'
+import { sendWhatsAppNotification } from '../services/notificationService'
 
 const PHONE_RE = /^(?:\+91[\-\s]?)?[6-9]\d{9}$/
 const initialForm = { name: '', mobile: '', email: '', city: '' }
@@ -28,10 +28,23 @@ export default function RequestCallbackModal({ isOpen, onClose }) {
 
     setLoading(true)
     try {
-      await Promise.allSettled([
-        sendContactEmail({ ...form, subject: 'Callback Request — Prime Document Solutions', message: `Callback request from ${form.name}. City: ${form.city}.` }),
+      const results = await Promise.allSettled([
         sendWhatsAppNotification({ ...form, subject: 'Callback Request', message: `Callback from ${form.name}. City: ${form.city}.` }),
       ])
+
+      const firstError = results.find(r => {
+        if (r.status === 'rejected') return true
+        return r.value?.success === false
+      })
+
+      if (firstError) {
+        const reason = firstError.status === 'rejected'
+          ? firstError.reason?.message
+          : firstError.value?.note
+        toast.error(`Notification failed${reason ? `: ${reason}` : '.'}`)
+        return
+      }
+
       toast.success(`Thank you, ${form.name}! We'll call you back shortly.`)
       setForm(initialForm)
       setErrors({})

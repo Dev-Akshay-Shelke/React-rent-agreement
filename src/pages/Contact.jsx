@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { sendContactEmail, sendWhatsAppNotification } from '../services/notificationService'
+import { sendWhatsAppNotification } from '../services/notificationService'
 
 const PHONE_RE = /^(?:\+91[\-\s]?)?[6-9]\d{9}$/
 
@@ -75,10 +75,23 @@ export default function Contact() {
 
     setLoading(true)
     try {
-      await Promise.allSettled([
-        sendContactEmail(form),
+      const results = await Promise.allSettled([
         sendWhatsAppNotification(form),
       ])
+
+      const firstError = results.find(r => {
+        if (r.status === 'rejected') return true
+        return r.value?.success === false
+      })
+
+      if (firstError) {
+        const reason = firstError.status === 'rejected'
+          ? firstError.reason?.message
+          : firstError.value?.note
+        toast.error(`Failed to send${reason ? `: ${reason}` : '.'}`)
+        return
+      }
+
       toast.success('Message sent! We\'ll get back to you shortly.')
       setForm(initForm)
       setErrors({})

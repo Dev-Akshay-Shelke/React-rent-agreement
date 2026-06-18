@@ -46,3 +46,6 @@ pnpm-debug.log*
 *.local
 vite.config.ts.timestamp-*
 vite.config.js.timestamp-*
+
+# Local Netlify folder
+.netlify
