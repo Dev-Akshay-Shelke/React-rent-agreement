@@ -259,7 +259,7 @@ export default function Home() {
 
       <section className="bg-brand-deep border-b border-white/10">
         <div className="max-w-5xl mx-auto px-4 py-10 sm:py-12">
-          <div className="grid grid-cols-3 divide-x divide-white/15">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/15">
             <CounterCard target={11500} suffix="+"      label="Agreements Registered" />
             <CounterCard target={250}   suffix="+"      label="Agreements Last Month" />
             <CounterCard target={yearsActive} suffix="+ Yrs" label="Years of Excellence" />
@@ -269,11 +269,11 @@ export default function Home() {
 
       {/* ── Guarantee Strip ── */}
       <section className="bg-brand-deep">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10 items-stretch">
           {guarantees.map((g, i) => (
             <motion.div
               key={g.label}
-              className="px-6 sm:px-8 py-8 sm:py-10"
+              className="h-full px-6 sm:px-8 py-8 sm:py-10 flex flex-col items-center text-center"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -283,7 +283,7 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={g.icon} />
               </svg>
               <p className="font-display font-bold text-base text-white mb-1.5">{g.label}</p>
-              <p className="text-white/60 text-sm leading-relaxed">{g.text}</p>
+              <p className="text-white/60 text-sm leading-relaxed flex-1">{g.text}</p>
             </motion.div>
           ))}
         </div>
