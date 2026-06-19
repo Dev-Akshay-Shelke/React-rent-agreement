@@ -25,9 +25,8 @@ export async function handler(event) {
 
   const accountSid = process.env.TWILIO_ACCOUNT_SID
   const authToken = process.env.TWILIO_AUTH_TOKEN
-  const from = process.env.TWILIO_WHATSAPP_FROM
-  const to = process.env.TWILIO_WHATSAPP_TO 
-  const contentSid = process.env.TWILIO_CONTENT_SID 
+  const from = process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886'
+  const to = process.env.TWILIO_WHATSAPP_TO || 'whatsapp:+919356480165'
 
   if (!accountSid || !authToken) {
     return {
@@ -48,17 +47,20 @@ export async function handler(event) {
     }
   }
 
-  const contentVariables = JSON.stringify({
-    1: payload.templateDate || '12/1',
-    2: payload.templateTime || '3pm',
-  })
+  const body = [
+    `*New Callback Request*`,
+    `Name: ${payload.name || 'N/A'}`,
+    `Mobile: ${payload.mobile || 'N/A'}`,
+    `City: ${payload.city || 'N/A'}`,
+    `Email: ${payload.email || 'N/A'}`,
+    `Message: ${payload.message || 'N/A'}`,
+  ].join('\n')
 
   try {
     const client = twilio(accountSid, authToken)
     const message = await client.messages.create({
       from,
-      contentSid,
-      contentVariables,
+      body,
       to,
     })
 
