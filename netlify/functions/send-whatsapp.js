@@ -23,10 +23,16 @@ export async function handler(event) {
     }
   }
 
+  // Twilio status callback — acknowledge and ignore
+  const contentType = event.headers['content-type'] || ''
+  if (contentType.includes('application/x-www-form-urlencoded')) {
+    return { statusCode: 200, headers: corsHeaders, body: '' }
+  }
+
   const accountSid = process.env.TWILIO_ACCOUNT_SID
   const authToken = process.env.TWILIO_AUTH_TOKEN
-  const from = process.env.TWILIO_WHATSAPP_FROM 
-  const to = process.env.TWILIO_WHATSAPP_TO 
+  const from = process.env.TWILIO_WHATSAPP_FROM
+  const to = process.env.TWILIO_WHATSAPP_TO
 
   if (!accountSid || !authToken) {
     return {
