@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="lg:col-span-1">
           <div className="flex items-center gap-3 mb-4">
-            <div className="bg-white rounded-2xl p-3 flex-shrink-0">
+            <div className="bg-white rounded-2xl px-3 flex-shrink-0">
               <img
                 src="/images/3Dlogo.png"
                 alt="Prime Document Solutions"
