@@ -25,8 +25,8 @@ export async function handler(event) {
 
   const accountSid = process.env.TWILIO_ACCOUNT_SID
   const authToken = process.env.TWILIO_AUTH_TOKEN
-  const from = process.env.TWILIO_WHATSAPP_FROM || 'whatsapp:+14155238886'
-  const to = process.env.TWILIO_WHATSAPP_TO || 'whatsapp:+919356480165'
+  const from = process.env.TWILIO_WHATSAPP_FROM 
+  const to = process.env.TWILIO_WHATSAPP_TO 
 
   if (!accountSid || !authToken) {
     return {
@@ -73,7 +73,11 @@ export async function handler(event) {
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ success: false, error: error.message || 'Twilio send failed' }),
+      body: JSON.stringify({
+        success: false,
+        error: error.message || 'Twilio send failed',
+        debug: { from, to },
+      }),
     }
   }
 }
