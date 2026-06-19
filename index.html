@@ -82,7 +82,7 @@
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "reviewCount": "11500",
+            "reviewCount": "430",
             "bestRating": "5"
           },
           "sameAs": [
@@ -199,23 +199,25 @@
     }
     </script>
 
-    <!-- ═══ Fonts ═══ -->
+    <!-- ═══ Fonts — non-blocking ═══ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet" />
-    <!-- Netlify Identity Widget — required for Decap CMS admin redirect -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800;900&display=swap" /></noscript>
+    <!-- Netlify Identity Widget — deferred so it never blocks rendering -->
+    <script>
+      function initNetlifyIdentity() {
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on('init', function(user) {
+            if (!user) window.netlifyIdentity.on('login', function() { document.location.href = '/admin/' })
+          })
+        }
+      }
+    </script>
+    <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js" onload="initNetlifyIdentity()"></script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <!-- Redirect to /admin after Netlify Identity login -->
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on('init', user => {
-          if (!user) window.netlifyIdentity.on('login', () => document.location.href = '/admin/')
-        })
-      }
-    </script>
   </body>
 </html>

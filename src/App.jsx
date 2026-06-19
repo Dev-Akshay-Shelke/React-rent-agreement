@@ -1,12 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
-import Home from './pages/Home'
-import About from './pages/About'
-import Services from './pages/Services'
-import Contact from './pages/Contact'
-import Blog from './pages/Blog'
-import BlogPost from './pages/BlogPost'
 import WhatsAppFloat from './components/WhatsAppFloat'
+
+const Home     = lazy(() => import('./pages/Home'))
+const About    = lazy(() => import('./pages/About'))
+const Services = lazy(() => import('./pages/Services'))
+const Contact  = lazy(() => import('./pages/Contact'))
+const Blog     = lazy(() => import('./pages/Blog'))
+const BlogPost = lazy(() => import('./pages/BlogPost'))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -23,15 +24,17 @@ export default function App() {
     <>
       <ScrollToTop />
 
-      <Routes>
-        <Route path="/"         element={<Home />} />
-        <Route path="/about"    element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/contact"  element={<Contact />} />
-        <Route path="/blog"     element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="*"         element={<Home />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/"         element={<Home />} />
+          <Route path="/about"    element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact"  element={<Contact />} />
+          <Route path="/blog"     element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="*"         element={<Home />} />
+        </Routes>
+      </Suspense>
 
       <WhatsAppFloat />
     </>

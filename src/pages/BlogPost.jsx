@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { blogPosts, extractTOC } from '../data/blogPosts'
+import { blogMeta } from '../data/blogMeta'
+import { loadBlogContent, extractTOC } from '../data/blogPosts'
 
 const categoryColors = {
   'Legal Guide':    'bg-blue-50 text-blue-700 border-blue-200',
@@ -13,7 +14,14 @@ const categoryColors = {
 
 export default function BlogPost() {
   const { slug } = useParams()
-  const post = blogPosts.find(p => p.slug === slug)
+  const post = blogMeta.find(p => p.slug === slug)
+  const [content, setContent] = useState(null) // { html, body }
+
+  useEffect(() => {
+    if (!post) return
+    setContent(null)
+    loadBlogContent(slug).then(setContent)
+  }, [slug, post])
 
   // Update page title and meta for SEO
   useEffect(() => {
@@ -62,12 +70,12 @@ export default function BlogPost() {
       const s = document.getElementById('blog-post-ld')
       if (s) s.remove()
     }
-  }, [post])
+  }, [slug, post])
 
   if (!post) return <Navigate to="/blog" replace />
 
-  const related = blogPosts.filter(p => p.slug !== slug).slice(0, 2)
-  const toc = extractTOC(post.body)
+  const related = blogMeta.filter(p => p.slug !== slug).slice(0, 2)
+  const toc = content ? extractTOC(content.body) : []
 
   return (
     <>
@@ -124,7 +132,7 @@ export default function BlogPost() {
               {/* Markdown-rendered article body */}
               <div
                 className="blog-prose"
-                dangerouslySetInnerHTML={{ __html: post.html }}
+                dangerouslySetInnerHTML={{ __html: content?.html ?? '<p style="color:#999">Loading…</p>' }}
               />
 
               {/* Bottom CTA */}

@@ -8,6 +8,8 @@ date: 2024-07-01
 keywords: online rent agreement registration Maharashtra, how to register rent agreement online, online leave and license registration Maharashtra, rent agreement online process Pune 2024
 ---
 
+> **Disclaimer:** This article is for general informational purposes only and does not constitute legal advice. Procedures and timelines are subject to change. Please contact us or refer to the official IGR Maharashtra portal for current requirements.
+
 ## Can You Register a Rent Agreement Completely Online in Maharashtra?
 
 Yes. Maharashtra was one of the first states to offer online Leave & License registration through the Department of Registration & Stamps. The process involves:
@@ -33,7 +35,7 @@ If you use Prime Document Solutions, our team will collect all details through a
 
 ## Step 2: Agreement Drafting
 
-A legally compliant Leave & License agreement must include all mandatory clauses as per the Maharashtra Rent Control Act. Our legal team prepares a customized draft that covers:
+A legally compliant Leave & License agreement must include all mandatory clauses as per the Maharashtra Rent Control Act. Our document specialists prepare a customized draft that covers:
 
 - Monthly licence fee and escalation clauses
 - Security deposit amount and refund conditions

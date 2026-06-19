@@ -8,6 +8,8 @@ date: 2024-06-01
 keywords: stamp duty rent agreement Maharashtra, stamp duty calculation Pune, stamp duty leave and license Maharashtra, rent agreement stamp duty 2024
 ---
 
+> **Disclaimer:** This article is for general informational purposes only and does not constitute legal advice. Stamp duty rates and registration fees are subject to change by the Maharashtra government. Please verify current rates with the official IGR Maharashtra portal or contact us before proceeding.
+
 ## What Is Stamp Duty on a Rent Agreement?
 
 Stamp duty is a government tax levied on legal documents to make them legally valid and admissible in court. In Maharashtra, a rent agreement (also called a Leave & License Agreement) must be stamped and registered to be legally enforceable under the Maharashtra Stamp Act, 1958.

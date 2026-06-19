@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import CounterCard from '../components/CounterCard'
 import RequestCallbackModal from '../components/RequestCallbackModal'
-import { blogPosts } from '../data/blogPosts'
+import { blogMeta } from '../data/blogMeta'
 
 const FOUNDING_YEAR = 2021
 const yearsActive   = new Date().getFullYear() - FOUNDING_YEAR
@@ -26,8 +26,8 @@ const serviceHighlights = [
     desc: 'From document intake to final delivery, the full journey is online with doorstep support.',
   },
   {
-    title: 'Legal team review included',
-    desc: 'Agreement drafting and compliance checks handled by specialists before submission.',
+    title: 'Agreement review included',
+    desc: 'Agreement drafting and compliance checks handled by registered document specialists before submission.'
   },
 ]
 
@@ -250,7 +250,7 @@ export default function Home() {
               </div>
 
               <div className="mt-6 rounded-2xl border border-brand-teal/25 bg-brand-teal/10 px-4 py-3 text-sm text-brand-deep font-semibold">
-                Typical completion time: 24-48 hours after verification.
+                Typical completion time: 24–48 hrs after verification (subject to document submission and government portal availability).
               </div>
             </motion.aside>
           </div>
@@ -418,6 +418,7 @@ export default function Home() {
               </motion.article>
             ))}
           </div>
+          <p className="text-center text-xs text-brand-muted mt-6 opacity-70">* Reviews are from real clients. Names used with permission or changed for privacy.</p>
         </div>
       </section>
 
@@ -502,7 +503,7 @@ export default function Home() {
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {blogPosts.slice(0, 3).map((post, i) => (
+            {blogMeta.slice(0, 3).map((post, i) => (
               <motion.article
                 key={post.slug}
                 initial={{ opacity: 0, y: 20 }}

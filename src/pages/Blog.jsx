@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { blogPosts } from '../data/blogPosts'
+import { blogMeta as blogPosts } from '../data/blogMeta'
 
 const categoryColors = {
   'Legal Guide':    'bg-blue-50 text-blue-700 border-blue-200',

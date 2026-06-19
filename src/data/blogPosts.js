@@ -1,5 +1,5 @@
 ﻿// ─── Inline markdown renderer (no external dependency) ───────────────────────
-// Handles: ## headings, **bold**, *italic*, - lists, 1. lists, --- hr, paragraphs
+// Handles: ## headings, **bold**, *italic*, - lists, 1. lists, --- hr, paragraphs, blockquotes
 
 function inlineFmt(text) {
   return text
@@ -20,6 +20,17 @@ function renderMarkdown(md) {
     if (line.startsWith('## ')) {
       out.push(`<h2>${inlineFmt(line.slice(3).trim())}</h2>`)
       i++; continue
+    }
+
+    // Blockquote
+    if (line.startsWith('> ')) {
+      out.push('<blockquote>')
+      while (i < lines.length && lines[i].startsWith('> ')) {
+        out.push(`<p>${inlineFmt(lines[i].slice(2).trim())}</p>`)
+        i++
+      }
+      out.push('</blockquote>')
+      continue
     }
 
     // HR
@@ -66,40 +77,23 @@ export function extractTOC(markdown) {
   return (markdown.match(/^## (.+)$/gm) || []).map(h => h.replace(/^## /, '').trim())
 }
 
-// Load all .md files from src/content/blog/ at build time via Vite glob
-const rawFiles = import.meta.glob(
-  '../content/blog/*.md',
-  { query: '?raw', import: 'default', eager: true }
-)
-
-// Minimal frontmatter parser
-function parseFrontmatter(raw) {
-  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/)
-  if (!match) return { meta: {}, body: raw }
-  const meta = {}
-  match[1].split('\n').forEach(line => {
-    const idx = line.indexOf(':')
-    if (idx === -1) return
-    const key = line.slice(0, idx).trim()
-    const val = line.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '')
-    if (key && val) meta[key] = val
-  })
-  return { meta, body: match[2].trim() }
+// Minimal frontmatter parser — strips --- block and returns body only
+function parseBody(raw) {
+  const match = raw.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n([\s\S]*)$/)
+  return match ? match[1].trim() : raw.trim()
 }
 
-export const blogPosts = Object.entries(rawFiles)
-  .map(([path, raw]) => {
-    const { meta, body } = parseFrontmatter(raw)
-    return {
-      slug:     meta.slug     || path.split('/').pop().replace('.md', ''),
-      title:    meta.title    || '',
-      excerpt:  meta.excerpt  || '',
-      category: meta.category || '',
-      readTime: meta.readTime || '',
-      date:     meta.date     || '',
-      keywords: meta.keywords ? meta.keywords.split(',').map(k => k.trim()) : [],
-      body,
-      html: renderMarkdown(body),
-    }
-  })
-  .sort((a, b) => new Date(b.date) - new Date(a.date))
+// Lazy loaders — Vite creates one dynamic import per file, only fetched on demand
+const contentLoaders = import.meta.glob(
+  '../content/blog/*.md',
+  { query: '?raw', import: 'default' }
+)
+
+// Load full content for a single post by slug — called only on BlogPost page
+export async function loadBlogContent(slug) {
+  const key = Object.keys(contentLoaders).find(k => k.includes(slug))
+  if (!key) return null
+  const raw = await contentLoaders[key]()
+  const body = parseBody(raw)
+  return { body, html: renderMarkdown(body) }
+}

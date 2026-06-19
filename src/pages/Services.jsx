@@ -23,7 +23,7 @@ const perks = [
   {
     icon:  '📋',
     title: 'Legal Draft Included',
-    desc:  'Our legal experts prepare a compliant, verified agreement draft tailored to your terms.',
+    desc:  'Our document specialists prepare a compliant, verified agreement draft tailored to your terms.'
   },
   {
     icon:  '🚀',
@@ -39,7 +39,7 @@ const perks = [
 
 const steps = [
   { n: '01', title: 'Share Your Details',   desc: 'Submit landlord, tenant, and property details through our quick intake form or WhatsApp.' },
-  { n: '02', title: 'Draft Preparation',    desc: 'Our legal team prepares a government-compliant draft and shares it for your review.' },
+  { n: '02', title: 'Draft Preparation',    desc: 'Our document team prepares a government-compliant draft and shares it for your review.' },
   { n: '03', title: 'Pay Stamp Duty',       desc: 'Calculate and pay the official Maharashtra government stamp duty online.' },
   { n: '04', title: 'Doorstep e-KYC',       desc: 'Our agent visits your location for Aadhaar biometric verification. No office visit needed.' },
   { n: '05', title: 'Download Certificate', desc: 'Your certified, registered agreement is delivered to you digitally via WhatsApp & email.' },
