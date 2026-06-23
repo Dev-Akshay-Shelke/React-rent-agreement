@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5 {
 
 /* ─── Hero background ─── */
 .hero-bg {
-  background-image: url('/images/bgimg2.jpg');
+  background-color: #1A2B49;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -319,6 +319,61 @@ h1, h2, h3, h4, h5 {
   100% { transform: scale(1); }
 }
 .counter-pop { animation: numberPop 0.3s ease; }
+
+/* ─── Scroll-reactive SVG animation helpers ─── */
+
+/* Gentle vertical float — used on SVG decorations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+/* Slower, wider float variant */
+@keyframes float-wide {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-18px) rotate(2deg); }
+  66%       { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+/* Pulsing ring expand + fade */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0.55; }
+  100% { transform: scale(2.2);  opacity: 0; }
+}
+
+/* Continuous slow spin */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Travelling glow dot (horizontal) */
+@keyframes travel-x {
+  0%   { left: -4%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 104%; opacity: 0; }
+}
+
+/* Utility classes */
+.animate-float       { animation: float 6s ease-in-out infinite; }
+.animate-float-slow  { animation: float-wide 9s ease-in-out infinite; }
+.animate-float-delay { animation: float 7s ease-in-out infinite 1.4s; }
+.animate-spin-slow   { animation: spin-slow 90s linear infinite; }
+.animate-pulse-ring  { animation: pulse-ring 2.2s ease-out infinite; }
+.animate-travel-x    { animation: travel-x 3s ease-in-out infinite; }
+
+/* Reduce motion — honour OS preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-slow,
+  .animate-float-delay,
+  .animate-spin-slow,
+  .animate-pulse-ring,
+  .animate-travel-x {
+    animation: none;
+  }
+}
 
 /* ─── File input ─── */
 input[type="file"] { @apply cursor-pointer; }

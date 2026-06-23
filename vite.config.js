@@ -13,6 +13,8 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'es2020',          // smaller output, no legacy transforms
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
         manualChunks: {

@@ -1,6 +1,7 @@
 import { useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import WhatsAppFloat from './components/WhatsAppFloat'
+import ScrollProgressBar from './components/ScrollProgressBar'
 
 const Home     = lazy(() => import('./pages/Home'))
 const About    = lazy(() => import('./pages/About'))
@@ -22,6 +23,7 @@ function ScrollToTop() {
 export default function App() {
   return (
     <>
+      <ScrollProgressBar />
       <ScrollToTop />
 
       <Suspense fallback={null}>

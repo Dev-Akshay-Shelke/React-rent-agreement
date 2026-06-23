@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useState, useRef, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import CounterCard from '../components/CounterCard'
 import RequestCallbackModal from '../components/RequestCallbackModal'
+import Tilt3DCard from '../components/Tilt3DCard'
 import { blogMeta } from '../data/blogMeta'
+
+// Heavy animation components loaded after first paint
+const AnimatedHeroSVG   = lazy(() => import('../components/AnimatedHeroSVG'))
+const ParticleField     = lazy(() => import('../components/ParticleField'))
+const ScrollLinkedSteps = lazy(() => import('../components/ScrollLinkedSteps'))
 
 const FOUNDING_YEAR = 2021
 const yearsActive   = new Date().getFullYear() - FOUNDING_YEAR
@@ -178,15 +184,27 @@ export default function Home() {
 
       <header className="studio-hero hero-bg relative overflow-hidden">
         <div className="hero-overlay absolute inset-0" />
+
+        {/* ── Interactive particle network ── */}
+        <Suspense fallback={null}>
+          <ParticleField />
+        </Suspense>
+
+        {/* ── Scroll-reactive SVG decorations ── */}
+        <Suspense fallback={null}>
+          <AnimatedHeroSVG />
+        </Suspense>
+
         <div className="absolute -top-44 left-1/3 h-[30rem] w-[30rem] rounded-full bg-brand-cta/15 blur-[100px]" />
         <div className="absolute -bottom-36 -right-20 h-[24rem] w-[24rem] rounded-full bg-brand-mint/15 blur-[95px]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-center">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-10 items-center" style={{ perspective: '1400px' }}>
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: 'easeOut' }}
+              initial={{ opacity: 0, y: 40, rotateX: 14 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.85, ease: 'easeOut' }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-brand-mint">
                 Trusted by 11,500+ clients in Pune
@@ -226,16 +244,23 @@ export default function Home() {
 
             <motion.aside
               className="hero-panel rounded-3xl p-5 sm:p-6 lg:p-7"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12, ease: 'easeOut' }}
+              initial={{ opacity: 0, y: 36, rotateY: -10 }}
+              animate={{ opacity: 1, y: 0, rotateY: 0 }}
+              transition={{ duration: 0.85, delay: 0.16, ease: 'easeOut' }}
+              style={{ transformStyle: 'preserve-3d', transformPerspective: 1000 }}
             >
               <p className="text-[11px] uppercase tracking-[0.18em] font-bold text-brand-teal">Live service snapshot</p>
               <h2 className="mt-2 text-brand-deep font-display text-2xl font-bold tracking-tight">What You Get</h2>
 
               <div className="mt-6 space-y-3">
-                {serviceHighlights.map((item) => (
-                  <article key={item.title} className="rounded-xl border border-brand-border bg-white p-4 flex gap-3">
+                {serviceHighlights.map((item, i) => (
+                  <motion.article
+                    key={item.title}
+                    className="rounded-xl border border-brand-border bg-white p-4 flex gap-3"
+                    initial={{ opacity: 0, x: 18 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.48, delay: i * 0.13 + 0.45, ease: 'easeOut' }}
+                  >
                     <div className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full bg-brand-teal/15 flex items-center justify-center">
                       <svg className="w-3 h-3 text-brand-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
@@ -245,7 +270,7 @@ export default function Home() {
                       <h3 className="text-sm font-bold text-brand-deep tracking-tight">{item.title}</h3>
                       <p className="mt-1 text-xs text-brand-muted leading-relaxed">{item.desc}</p>
                     </div>
-                  </article>
+</motion.article>
                 ))}
               </div>
 
@@ -279,9 +304,32 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.08 }}
             >
-              <svg className="w-7 h-7 mb-4" fill="none" stroke="#28A745" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={g.icon} />
-              </svg>
+              {/* Icon with pulsing green ring */}
+              <div className="relative mb-4 flex items-center justify-center">
+                <motion.div
+                  className="absolute w-14 h-14 rounded-full"
+                  style={{ border: '1.5px solid #28A745' }}
+                  animate={{ scale: [0.85, 2], opacity: [0.5, 0] }}
+                  transition={{ duration: 2.2, delay: i * 0.5 + 0.3, repeat: Infinity, repeatDelay: 1.8, ease: 'easeOut' }}
+                />
+                <motion.div
+                  className="absolute w-14 h-14 rounded-full"
+                  style={{ border: '1px solid #28A745' }}
+                  animate={{ scale: [0.85, 2.4], opacity: [0.3, 0] }}
+                  transition={{ duration: 2.2, delay: i * 0.5 + 0.55, repeat: Infinity, repeatDelay: 1.8, ease: 'easeOut' }}
+                />
+                {/* 3-D rocking icon */}
+                <motion.div
+                  className="relative z-10"
+                  animate={{ rotateY: [0, 20, 0, -20, 0] }}
+                  transition={{ duration: 5.5, delay: i * 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ transformStyle: 'preserve-3d', transformPerspective: 220 }}
+                >
+                  <svg className="w-7 h-7" fill="none" stroke="#28A745" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={g.icon} />
+                  </svg>
+                </motion.div>
+              </div>
               <p className="font-display font-bold text-base text-white mb-1.5">{g.label}</p>
               <p className="text-white/60 text-sm leading-relaxed flex-1">{g.text}</p>
             </motion.div>
@@ -289,7 +337,44 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-shell py-16 sm:py-24 px-4">
+      <section className="section-shell py-16 sm:py-24 px-4 relative overflow-hidden">
+        {/* ── Floating corner ring decoration ───────────────────────────── */}
+        <motion.div
+          className="absolute -top-20 -right-20 pointer-events-none"
+          initial={{ opacity: 0, scale: 0.7 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.4, ease: 'easeOut' }}
+        >
+          <motion.svg
+            width="320" height="320" viewBox="0 0 320 320"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 110, repeat: Infinity, ease: 'linear' }}
+          >
+            <circle cx="160" cy="160" r="148" fill="none" stroke="#1A2B49" strokeWidth="1" strokeOpacity="0.05" strokeDasharray="12 22" />
+            <circle cx="160" cy="160" r="118" fill="none" stroke="#0055DA" strokeWidth="0.7" strokeOpacity="0.04" />
+            <circle cx="160" cy="160" r="88"  fill="none" stroke="#28A745" strokeWidth="0.6" strokeOpacity="0.04" strokeDasharray="6 14" />
+          </motion.svg>
+        </motion.div>
+
+        {/* ── Bottom-left diamond ───────────────────────────────────────── */}
+        <motion.div
+          className="absolute bottom-10 -left-10 pointer-events-none"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          animate={{ y: [0, 14, 0] }}
+        >
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <rect
+              x="18" y="18" width="64" height="64"
+              fill="none" stroke="#0055DA" strokeWidth="1" strokeOpacity="0.06"
+              transform="rotate(45 50 50)"
+            />
+          </svg>
+        </motion.div>
+
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-14"
@@ -307,18 +392,16 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
-          >
-            {valueCards.map((f) => (
-              <motion.div
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" style={{ perspective: '1400px' }}>
+            {valueCards.map((f, i) => (
+              <Tilt3DCard
                 key={f.title}
-                variants={fadeCard}
-                className="group feature-panel relative rounded-2xl p-7 border border-brand-border"
+                className="group feature-panel relative rounded-2xl p-7 border border-brand-border h-full"
+                intensity={9}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.09 }}
               >
                 <div className={`w-12 h-12 rounded-xl ${f.iconBg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
                   <svg className="w-5 h-5" fill="none" stroke={f.iconColor} viewBox="0 0 24 24">
@@ -327,9 +410,9 @@ export default function Home() {
                 </div>
                 <h3 className="font-display text-[17px] font-bold text-brand-deep mb-2 tracking-tight">{f.title}</h3>
                 <p className="text-brand-muted text-sm leading-relaxed">{f.desc}</p>
-              </motion.div>
+              </Tilt3DCard>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -351,25 +434,14 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="hidden md:block absolute top-7 left-[calc(33.33%+1rem)] right-[calc(33.33%+1rem)] h-px bg-gradient-to-r from-brand-teal/30 via-brand-teal/15 to-brand-teal/30" />
-            {processSteps.map((step, i) => (
-              <motion.div
-                key={step.n}
-                className="relative bg-white rounded-2xl p-6 sm:p-7 shadow-card border border-brand-border text-left hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.07 }}
-              >
-                <div className="w-14 h-14 bg-brand-deep text-white font-display font-black text-base rounded-xl flex items-center justify-center mb-5 ring-4 ring-brand-light">
-                  {step.n}
-                </div>
-                <h3 className="font-display font-bold text-brand-deep text-lg mb-2 tracking-tight">{step.title}</h3>
-                <p className="text-brand-muted text-sm leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+          {/* ScrollLinkedSteps: every visual state is derived from raw scrollYProgress
+               so scrubbing backward fully reverses all transitions. */}
+          <Suspense fallback={<div className="max-w-2xl mx-auto py-12" />}>
+            <ScrollLinkedSteps
+              steps={processSteps}
+              className="max-w-2xl mx-auto"
+            />
+          </Suspense>
         </div>
       </section>
 
@@ -392,12 +464,31 @@ export default function Home() {
             {testimonials.map((item, i) => (
               <motion.article
                 key={item.name}
-                className="review-card rounded-2xl border border-brand-border p-6 flex flex-col"
+                className="review-card rounded-2xl border border-brand-border p-6 flex flex-col relative overflow-hidden"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}
+                style={{ transformStyle: 'preserve-3d', transformPerspective: 900 }}
+                whileHover={{ rotateY: 4, rotateX: -2.5, scale: 1.025, transition: { duration: 0.35 } }}
               >
+                {/* Decorative quote SVG — top right of card */}
+                <motion.div
+                  className="absolute top-3 right-3 pointer-events-none"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.12 + 0.3, type: 'spring' }}
+                >
+                  <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                    <path
+                      d="M0 24V14.4C0 10.56 0.8 7.36 2.4 4.8C4 2.24 6.56 0.64 10.08 0L11.52 2.88C9.28 3.52 7.6 4.64 6.48 6.24C5.36 7.84 4.8 9.76 4.8 12H9.6V24H0ZM18 24V14.4C18 10.56 18.8 7.36 20.4 4.8C22 2.24 24.56 0.64 28.08 0L29.52 2.88C27.28 3.52 25.6 4.64 24.48 6.24C23.36 7.84 22.8 9.76 22.8 12H27.6V24H18Z"
+                      fill="#1A2B49"
+                      fillOpacity="0.05"
+                    />
+                  </svg>
+                </motion.div>
+
                 <div className="flex items-center gap-0.5 mb-4">
                   {[...Array(5)].map((_, s) => (
                     <svg key={s} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -453,19 +544,39 @@ export default function Home() {
                   aria-expanded={openFaq === i}
                 >
                   <span className="font-display text-sm sm:text-[15px] font-bold text-brand-deep">{item.q}</span>
-                  <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 ${
-                    openFaq === i ? 'bg-brand-deep text-white rotate-45' : 'bg-brand-light text-brand-deep'
-                  }`}>
+                  {/* Icon rotates smoothly via framer-motion instead of a CSS class toggle */}
+                  <motion.span
+                    className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
+                    animate={{
+                      rotate:          openFaq === i ? 45 : 0,
+                      backgroundColor: openFaq === i ? '#1A2B49' : '#F7F6F0',
+                      color:           openFaq === i ? '#ffffff' : '#1A2B49',
+                    }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
                     </svg>
-                  </span>
+                  </motion.span>
                 </button>
-                {openFaq === i && (
-                  <div className="px-5 sm:px-6 pb-5 bg-brand-light border-t border-brand-border">
-                    <p className="text-brand-muted text-sm leading-relaxed pt-4">{item.a}</p>
-                  </div>
-                )}
+                {/* Answer: AnimatePresence gives a smooth height-animated open/close.
+                    Scrolling past or clicking again reverses the transition. */}
+                <AnimatePresence initial={false}>
+                  {openFaq === i && (
+                    <motion.div
+                      key="answer"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{   height: 0, opacity: 0 }}
+                      transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 sm:px-6 pb-5 bg-brand-light border-t border-brand-border">
+                        <p className="text-brand-muted text-sm leading-relaxed pt-4">{item.a}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </div>
@@ -510,6 +621,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: i * 0.07 }}
+                style={{ transformStyle: 'preserve-3d', transformPerspective: 900 }}
+                whileHover={{ rotateY: 4, rotateX: -2, scale: 1.03, transition: { duration: 0.3 } }}
               >
                 <Link
                   to={`/blog/${post.slug}`}
@@ -579,14 +692,19 @@ export default function Home() {
                 Online rent agreement registration with doorstep biometric service across Pune.
               </p>
               <div className="flex flex-wrap gap-2">
-                {puneAreas.map((area) => (
-                  <span
+                {puneAreas.map((area, i) => (
+                  <motion.span
                     key={area}
-                    className="inline-block text-xs font-semibold text-brand-deep bg-white border border-brand-border rounded-lg px-3 py-1.5 hover:border-brand-teal hover:bg-brand-mint/10 transition-colors cursor-default"
+                    className="inline-block text-xs font-semibold text-brand-deep bg-white border border-brand-border rounded-lg px-3 py-1.5 cursor-default"
                     title={`Rent agreement registration in ${area}, Pune`}
+                    initial={{ opacity: 0, scale: 0.82 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.28, delay: Math.min(i * 0.022, 0.55) }}
+                    whileHover={{ y: -3, scale: 1.06, borderColor: '#28A745', backgroundColor: '#f0fdf4', transition: { duration: 0.18 } }}
                   >
                     {area}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
@@ -606,14 +724,19 @@ export default function Home() {
                 Rent agreement and Leave &amp; License registration across Mumbai, Thane, and Navi Mumbai.
               </p>
               <div className="flex flex-wrap gap-2">
-                {mumbaiAreas.map((area) => (
-                  <span
+                {mumbaiAreas.map((area, i) => (
+                  <motion.span
                     key={area}
-                    className="inline-block text-xs font-semibold text-brand-deep bg-white border border-brand-border rounded-lg px-3 py-1.5 hover:border-brand-teal hover:bg-brand-mint/10 transition-colors cursor-default"
+                    className="inline-block text-xs font-semibold text-brand-deep bg-white border border-brand-border rounded-lg px-3 py-1.5 cursor-default"
                     title={`Rent agreement registration in ${area}, Mumbai`}
+                    initial={{ opacity: 0, scale: 0.82 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.28, delay: Math.min(i * 0.04, 0.5) }}
+                    whileHover={{ y: -3, scale: 1.06, borderColor: '#0055DA', backgroundColor: '#eff6ff', transition: { duration: 0.18 } }}
                   >
                     {area}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
               <div className="mt-5 pt-4 border-t border-brand-border">
@@ -654,6 +777,48 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-1/3 w-72 h-72 bg-brand-cta/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/3 w-72 h-72 bg-brand-mint/8 rounded-full blur-3xl" />
+
+          {/* Animated rotating ring decoration */}
+          <motion.div
+            className="absolute -bottom-28 -left-28"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2 }}
+          >
+            <motion.svg
+              width="380" height="380" viewBox="0 0 380 380"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
+            >
+              <circle cx="190" cy="190" r="172" fill="none" stroke="white" strokeWidth="1" strokeOpacity="0.05" strokeDasharray="14 24" />
+              <circle cx="190" cy="190" r="135" fill="none" stroke="#28A745" strokeWidth="0.7" strokeOpacity="0.06" />
+              <circle cx="190" cy="190" r="98"  fill="none" stroke="white" strokeWidth="0.5" strokeOpacity="0.03" strokeDasharray="6 14" />
+            </motion.svg>
+          </motion.div>
+
+          <motion.div
+            className="absolute -top-20 -right-20"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+          >
+            <motion.svg
+              width="280" height="280" viewBox="0 0 280 280"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 85, repeat: Infinity, ease: 'linear' }}
+            >
+              <polygon
+                points="140,8 264,76 264,204 140,272 16,204 16,76"
+                fill="none" stroke="white" strokeWidth="0.8" strokeOpacity="0.05"
+              />
+              <polygon
+                points="140,40 234,96 234,184 140,240 46,184 46,96"
+                fill="none" stroke="#0055DA" strokeWidth="0.5" strokeOpacity="0.05" strokeDasharray="6 12"
+              />
+            </motion.svg>
+          </motion.div>
         </div>
 
         <motion.div
